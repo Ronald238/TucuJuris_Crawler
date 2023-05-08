@@ -1,4 +1,4 @@
-<h2>TucuJuris Crawler <img src="" width="60"></h2>
+<h2>TucuJuris Crawler <img src="https://cdn.edu.buncee.com/assets/abbde3e5bc174eb59c55d4b2f278ec48/animation-library-magicbookp-022120.gif?timestamp=1582320629" width="60"></h2>
 
   
 *This Python code is a class called "ConsultaProcessual" that inherits from the class "Tucujuris". The "Tucujuris" class contains a method to perform HTTP requests ("request" method), a method to initialize and close sessions ("__enter__" and "__exit__" methods, respectively) and a "start" method that receives a field dictionary and returns data extracted from each HTTP request response. The "ConsultaProcessual" class defines two functions that perform the extraction of data from legal proceedings of Brazilian courts.*
@@ -12,13 +12,13 @@
 *The code also imports other Python libraries (such as "os", "json", "logging" and "datetime") and a custom class called "Base". The code also uses the "__init__" and "__exit__" initialization methods and the "self" attributes to define and access variables internal to the class. The "ConsultaProcessual" class is used to access data from a specific judicial court in Brazil and extract information from court cases.*
 <div>
 
-<h2>Technologies used <img src="" width="60"></h2>
+<h2>Technologies used <img src="https://media.tenor.com/o2NcvHhvH8wAAAAi/pixelbot-robot.gif" width="50"></h2>
 <div>
   <img align="center" height="50" weight="60" img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vscode/vscode-original.svg" />
   <img align="center" height="50" weight="60" img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" />
   <img align="center" height="50" weight="60" img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/jupyter/jupyter-original-wordmark.svg" />
 
-<h2>Libraries used/links<img src="https://cdn.edu.buncee.com/assets/abbde3e5bc174eb59c55d4b2f278ec48/animation-library-magicbookp-022120.gif?timestamp=1582320629" width="50"></h2>
+<h2>Libraries used/links<img src="https://media.tenor.com/wOar0JtSmEcAAAAi/link-zelda.gif" width="50"></h2>
 <div>
 <a href="https://tucujuris.tjap.jus.br/tucujuris/pages/consultar-processo/consultar-processo.html"/>
 ◦Tucujuris: This was the site used for this code.
