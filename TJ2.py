@@ -64,15 +64,40 @@ class ProceduralConsultation(Tucujuris):
           try: subject = infos['cnj_subject'][0].get('description', '')
           except: subject = ''
         
-    
-          data = dict()
-          data['process_number'] = infos.get('cnj_number', '')
-          data['process_class'] = infos.get('class', '')
-          data['process_area'] = ''
-          data['subject_process'] = subject
-          data['process_value'] = infos.get('cause_value', '')
-          data['vara_processo'] = infos.get('lotacao', '')
-          data['parts'] = parts
-          data['movements'] = moves
         
-          return data
+    def get_process_number(infos: dict) -> str:
+        return infos.get('cnj_number', '')
+
+    def get_process_class(infos: dict) -> str:
+        return infos.get('class', '')
+
+    def get_process_area() -> str:
+        return ''
+
+    def get_subject_process(subject: str) -> str:
+        return subject
+
+    def get_process_value(infos: dict) -> str:
+        return infos.get('cause_value', '')
+
+    def get_vara_processo(infos: dict) -> str:
+        return infos.get('lotacao', '')
+
+    def get_parts(parts: list) -> list:
+        return parts
+
+    def get_movements(moves: list) -> list:
+        return moves
+
+    data = {}
+    data['process_number'] = get_process_number(infos)
+    data['process_class'] = get_process_class(infos)
+    data['process_area'] = get_process_area()
+    data['subject_process'] = get_subject_process(subject)
+    data['process_value'] = get_process_value(infos)
+    data['vara_processo'] = get_vara_processo(infos)
+    data['parts'] = get_parts(parts)
+    data['movements'] = get_movements(moves)
+
+
+    return data
