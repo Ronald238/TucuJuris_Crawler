@@ -4,75 +4,75 @@ import time
 
 class ConsultaProcessual(Tucujuris):
     
-    def __init__(self):
-        self.Tribunal = 'AP'
-        self.UrlBase = 'http://tucujuris.tjap.jus.br/'
-        self.UrlBusca = self.UrlBase + 'api/publico/consultar-processos'
-        self.Header = {}
+     def __init__(self):
+         self.Court = 'AP'
+         self.UrlBase = 'http://tucujuris.tjap.jus.br/'
+         self.UrlBusca = self.UrlBase + 'api/publico/consultar-processos'
+         self.Header = {}
 
-    def buscar_links(self):
-        print("BUSCAR LINKS")
+     def fetch_links(self):
+         print("SEARCH LINKS")
 
-        captcha = self.request('get', "http://tucujuris.tjap.jus.br/api/publico/buscar-passe-captcha").json()
-        payload = {'nome_parte': '', 'documento_parte': '',
-                   'numero_carta_precatoria': '', 'situacao_processo': '', 'captcha': captcha['dados']}
+         captcha = self.request('get', "http://tucujuris.tjap.jus.br/api/publico/buscar-passe-captcha").json()
+         payload = {'part_name': '', 'part_document': '',
+                    'number_letter_precatory': '', 'situacao_processo': '', 'captcha': captcha['data']}
 
-        if self.Oab and self.Uf:
-            payload['oab_advogado'] = self.Oab_Uf
+         if self.Oab and self.Uf:
+             payload['oab_advogado'] = self.Oab_Uf
 
-        elif self.Nome:
-            payload['nome_advogado'] = self.Nome
+         elif self.Name:
+             payload['lawyer_name'] = self.Name
 
-        elif self.Documento:
-            return []
+         elif self.Document:
+             return[]
         
-        elif self.Processo != '':
-            payload['numero_unico'] = self.Processo
+         elif self.Process != '':
+             payload['unique_number'] = self.Process
 
-        self.Header = {"Content-Type": "application/json"}
-        response = self.request('get', self.UrlBusca, params=payload, headers=self.Header).json()
-        links = []
-        for i in response['dados'].get('autos'):
-            links.append({'autos_id': i.get('id'),
-                          'chave_consumo': ''})
-        return links
+         self.Header = {"Content-Type": "application/json"}
+         response = self.request('get', self.UrlBusca, params=payload, headers=self.Header).json()
+         links = []
+         for i in response['data'].get('autos'):
+             links.append({'autos_id': i.get('id'),
+                           'consumption_key': ''})
+         return links
 
-    def extrair_dados(self, response):
-        time.sleep(1)
-        data = self.request('get', self.UrlBase + 'api/publico/buscar-detalhes-autos-consulta-publica', params=response, headers=self.Header).json()
+     def extract_data(self, response):
+         time.sleep(1)
+         data = self.request('get', self.UrlBase + 'api/publico/buscar-details-autos-consulta-publica', params=response, headers=self.Header).json()
         
         
         
-        if 'mensagem' in data and data['mensagem'].startswith(''):
-            return {}
-        infos = data['dados']['cabecalho']
-        partes = data['dados']['capa']
+         if 'message' in data and data['message'].startswith(''):
+             return {}
+         infos = data['data']['header']
+         parts = data['data']['cover']
 
-        dados = dict()
-        movimentacao = list()    
-        for i in data['dados']['movimentos']:
-            andamento = i.get('complemento_pa')
-            andamento = andamento.replace('\n', ' ').replace('\r', ' ').replace('\t', ' ') if andamento != None else ''
-            data = i.get('dt_andamento_pa').split(' ')[0]
-            movimentacao.append({'titulo': i.get('descricao_pa').replace('\n', ' ').replace('\r', ' ').replace('\t', ' '),
-                   'conteudo': andamento,
-                   'data': datetime.strptime(data,'%Y-%m-%d').strftime('%d/%m/%Y'),
-                   'complemento': ''})
+         data = dict()
+         move = list()
+         for i in data['data']['movements']:
+             progress = i.get('complemento_pa')
+             tempo = tempo.replace('\n', ' ').replace('\r', ' ').replace('\t', ' ') if tempo != None else ''
+             data = i.get('dt_andamento_pa').split(' ')[0]
+             movement.append({'title': i.get('description_pa').replace('\n', ' ').replace('\r', ' ').replace('\t', ' ') ,
+                    'content': progress,
+                    'date': datetime.strptime(date,'%Y-%m-%d').strftime('%d/%m/%Y'),
+                    'complement': ''})
         
-        if 'valor_causa' in infos:
-            infos['valor_causa'] = int(infos['valor_causa'])
-        try: assunto =  infos['cnj_assunto'][0].get('descricao', '')
-        except: assunto = ''
+         if 'cause_value' in infos:
+             infos['cause_value'] = int(infos['cause_value'])
+         try: subject = infos['cnj_subject'][0].get('description', '')
+         except: subject = ''
         
     
-        dados = dict()
-        dados['numero_processo'] = infos.get('numero_cnj', '')
-        dados['classe_processo'] = infos.get('classe', '')
-        dados['area_processo'] = ''
-        dados['assunto_processo'] = assunto
-        dados['valor_processo'] = infos.get('valor_causa', '')
-        dados['vara_processo'] = infos.get('lotacao', '')
-        dados['partes'] = partes
-        dados['movimentacoes'] = movimentacao
+         data = dict()
+         data['process_number'] = infos.get('cnj_number', '')
+         data['process_class'] = infos.get('class', '')
+         data['process_area'] = ''
+         data['subject_process'] = subject
+         data['process_value'] = infos.get('cause_value', '')
+         data['vara_processo'] = infos.get('lotacao', '')
+         data['parts'] = parts
+         data['movements'] = move
         
-        return dados
+         return data
