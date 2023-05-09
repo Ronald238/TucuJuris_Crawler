@@ -13,7 +13,7 @@ class ProceduralConsultation(Tucujuris):
       def fetch_links(self):
           print("SEARCH LINKS")
 
-          captcha = self.request('get', "http://tucujuris.tjap.jus.br/api/publico/buscar-passe-captcha").json()
+          captcha = self.require('get', "http://tucujuris.tjap.jus.br/api/publico/buscar-passe-captcha").json()
           payload = {'part_name': '', 'part_document': '',
                      'number_letter_precatory': '', 'situacao_processo': '', 'captcha': captcha['data']}
 
@@ -30,7 +30,7 @@ class ProceduralConsultation(Tucujuris):
               payload['unique_number'] = self.Process
 
           self.Header = {"Content-Type": "application/json"}
-          response = self.request('get', self.UrlBusca, params=payload, headers=self.Header).json()
+          response = self.require('get', self.UrlBusca, params=payload, headers=self.Header).json()
           links = []
           for i in response['data'].get('autos'):
               links.append({'autos_id': i.get('id'),
@@ -39,7 +39,7 @@ class ProceduralConsultation(Tucujuris):
 
       def extract_data(self, response):
           time.sleep(1)
-          data = self.request('get', self.UrlBase + 'api/publico/buscar-details-autos-consulta-publica', params=response, headers=self.Header).json()
+          data = self.require('get', self.UrlBase + 'api/publico/buscar-details-autos-consulta-publica', params=response, headers=self.Header).json()
         
         
         
