@@ -11,7 +11,7 @@ logging.basicConfig(level=logging.INFO)
 
 class Tucujuris():
     
-      def request(self, method, url, params=None, data=None, headers=None, timeout=30):
+      def require(self, method, url, params=None, data=None, headers=None, timeout=30):
         
           if method == 'post':
               response = self.r.post(url, data=data, headers=headers, timeout=timeout)
