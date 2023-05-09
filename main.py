@@ -5,44 +5,44 @@ client = TjAP_Tucujuris()
 app = FastAPI()
 
 # with TjAP_Tucujuris() as t:
-#     t.start(nome='Joao Rosa')
+# t.start(name='Joao Rosa')
  
 @app.get("/hello")
 def root():
-        return {"messege": "Hello World"}
+          return {"messege": "Hello World"}
 
-@app.post("/consulta")
-async def consulta(request: Request):
-    # try:
-        form = await request.json()
+@app.post("/query")
+async def query(request: Request):
+      # try:
+          form = await request.json()
         
-        print(form)
-        dados = client.start(form)
+          print(form)
+          data = client.start(form)
         
-        return {'processos': dados}
-    # except Exception as e:
-    #     return error(msg=e.args[0]) 
+          return {'processes': data}
+      # except Exception as e:
+      # return error(msg=e.args[0])
 
 def get_content(content, required_fields):
-    validate_content(content, required_fields)
-    return content
+      validate_content(content, required_fields)
+      return content
 
 def validate_content(content, required_fields):
-    for field in required_fields:
-        if field not in content:
-            print(field)
-            raise print("Requisição inválida.")
+      for field in required_fields:
+          if field not in content:
+              print(field)
+              raise print("Invalid request.")
 
-def error(msg="Erro desconhecido ao processar requisição."):
-    return {
-        "sucesso" : False,
-        "msg": msg
-    }
+def error(msg="Unknown error processing request."):
+      return {
+          "success" : False,
+          "msg": msg
+      }
             
 def invalid_request():
-    return error(msg="Requisição inválida.")
+      return error(msg="Invalid request.")
 
 def ok():
-    return {
-        "sucesso" : True
-    }
+      return {
+          "success" : True
+      }
