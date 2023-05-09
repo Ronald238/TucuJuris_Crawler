@@ -31,7 +31,7 @@ class Tucujuris():
           return self
     
       def start(self, fields:dict):
-          self.normalize_fields(**fields)
+          self.validate_fields(**fields)
           self.r = requests.session()
           response_link = self.search_links()
         
@@ -49,7 +49,7 @@ class Tucujuris():
                   print(e, how many_failures)
           return total_data
         
-      def normalize_fields(self, **fields):
+      def validate_fields(self, **fields):
           Uf = ['AC', 'AL', 'AP', 'AM', 'BA', 'CE', 'DF', 'ES', 'GO', 'MA', 'MT', 'MS' , 'MG', 'PA', 'PB', 'PR', 'PE', 'PI', 'RJ', 'RN', 'RS', 'RO', 'RR', 'SC', ' SP', 'SE', 'TO']
         
           self.Fields = fields
