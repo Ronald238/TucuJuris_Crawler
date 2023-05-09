@@ -11,56 +11,56 @@ logging.basicConfig(level=logging.INFO)
 
 class Tucujuris():
     
-    def request(self, method, url, params=None, data=None, headers=None, timeout=30):
+     def request(self, method, url, params=None, data=None, headers=None, timeout=30):
         
-        if method == 'post':
-            response = self.r.post(url, data=data, headers=headers, timeout=timeout)
-        elif method == 'get':
-            response = self.r.get(url, params=params, headers=headers, timeout=timeout)
-        else:
-            raise Exception('Método inválido')
+         if method == 'post':
+             response = self.r.post(url, data=data, headers=headers, timeout=timeout)
+         elif method == 'get':
+             response = self.r.get(url, params=params, headers=headers, timeout=timeout)
+         else:
+             raise Exception('Invalid method')
                 
-        return response
+         return response
     
-    def __exit__(self, type, value, traceback):
-        self.r.close()
+     def __exit__(self, type, value, traceback):
+         self.r.close()
     
-    def __enter__(self):
-        print("batata")
-        self.r = requests.session()
-        return self
+     def __enter__(self):
+         print("potato")
+         self.r = requests.session()
+         return self
     
-    def start(self, campos:dict):
-        self.normalizar_campos(**campos)
-        self.r = requests.session()
-        response_link = self.buscar_links() 
+     def start(self, fields:dict):
+         self.normalize_fields(**fields)
+         self.r = requests.session()
+         response_link = self.search_links()
         
-        qnt_falhas = 0
-        falhas = list()
-        total_dados = list()
-        for response in response_link:
-            try:
-                dados = self.extrair_dados(response)
-                total_dados.append(dados)
+         qnt_failures = 0
+         failures = list()
+         total_data = list()
+         for response in response_link:
+             try:
+                 data = self.extract_data(response)
+                 total_data.append(data)
     
-            except Exception as e:
-                qnt_falhas += 1
-                falhas.append(str(e))
-                print(e, qnt_falhas)
-        return total_dados
+             except Exception as e:
+                 number_failures += 1
+                 failures.append(str(e))
+                 print(e, how many_failures)
+         return total_data
         
-    def normalizar_campos(self, **campos):
-        Uf = ['AC', 'AL', 'AP', 'AM', 'BA', 'CE', 'DF', 'ES', 'GO', 'MA', 'MT', 'MS', 'MG', 'PA', 'PB', 'PR', 'PE', 'PI',  'RJ', 'RN', 'RS', 'RO', 'RR', 'SC', 'SP', 'SE', 'TO']
+     def normalize_fields(self, **fields):
+         Uf = ['AC', 'AL', 'AP', 'AM', 'BA', 'CE', 'DF', 'ES', 'GO', 'MA', 'MT', 'MS' , 'MG', 'PA', 'PB', 'PR', 'PE', 'PI', 'RJ', 'RN', 'RS', 'RO', 'RR', 'SC', ' SP', 'SE', 'TO']
         
-        self.Campos = campos
+         self.Fields = fields
 
         
-        self.Uf = campos.get('Uf', '').upper()
-        self.UfIndex = Uf.index(self.Uf) if self.Uf in Uf else None        
-        self.Oab = campos.get('oab', '').upper()
-        self.Nome = campos.get('nome', '').upper()
-        self.Documento = campos.get('documento', '').upper()
-        self.Processo = campos.get('processo', '').upper()
-        self.Oab_Uf = '{}{}'.format(self.Oab, self.Uf)
-        self.Uf_OAB = '{}-{}'.format(self.Uf, self.Oab)
-        self.UfOAB = '{}{}'.format(self.Uf, self.Oab.zfill(6))
+         self.Uf = fields.get('Uf', '').upper()
+         self.UfIndex = Uf.index(self.Uf) if self.Uf in Uf else None
+         self.Oab = fields.get('oab', '').upper()
+         self.Name = fields.get('name', '').upper()
+         self.Document = fields.get('document', '').upper()
+         self.Process = fields.get('process', '').upper()
+         self.Oab_Uf = '{}{}'.format(self.Oab, self.Uf)
+         self.Uf_OAB = '{}-{}'.format(self.Uf, self.Oab)
+         self.UfOAB = '{}{}'.format(self.Uf, self.Oab.zfill(6))
