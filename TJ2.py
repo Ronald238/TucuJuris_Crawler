@@ -50,19 +50,29 @@ class ProceduralConsultation(Tucujuris):
 
           date = dict()
           move = list()
-          for i in data['data']['movements']:
-              progress = i.get('complemento_pa')
-              time = time.replace('\n', ' ').replace('\r', ' ').replace('\t', ' ') if time != None else ''
-              data = i.get('dt_andamento_pa').split(' ')[0]
-              movement.append({'title': i.get('description_pa').replace('\n', ' ').replace('\r', ' ').replace('\t', ' ') ,
-                     'content': progression,
-                     'date': datetime.strptime(date,'%Y-%m-%d').strftime('%d/%m/%Y'),
-                     'complement': ''})
-        
-          if 'cause_value' in infos:
-              infos['cause_value'] = int(infos['cause_value'])
-          try: subject = infos['cnj_subject'][0].get('description', '')
-          except: subject = ''
+          
+    def process_movements(data):
+        movements = []
+        for i in data['data']['movements']:
+            progress = i.get('complemento_pa')
+            time = time.replace('\n', ' ').replace('\r', ' ').replace('\t', ' ') if time is not None else ''
+            date = i.get('dt_andamento_pa').split(' ')[0]
+            movements.append({
+                'title': i.get('description_pa').replace('\n', ' ').replace('\r', ' ').replace('\t', ' '),
+                'content': progress,
+                'date': datetime.strptime(date, '%Y-%m-%d').strftime('%d/%m/%Y'),
+                'complement': ''
+            })
+
+            if 'cause_value' in data:
+                data['cause_value'] = int(data['cause_value'])
+            try:
+                subject = data['cnj_subject'][0].get('description', '')
+            except:
+                subject = ''
+
+        return {'movements': movements, 'subject': subject}
+
         
         
     def get_process_number(infos: dict) -> str:
@@ -71,20 +81,11 @@ class ProceduralConsultation(Tucujuris):
     def get_process_class(infos: dict) -> str:
         return infos.get('class', '')
 
-    def get_process_area() -> str:
-        return ''
-
-    def get_subject_process(subject: str) -> str:
-        return subject
-
     def get_process_value(infos: dict) -> str:
         return infos.get('cause_value', '')
 
     def get_vara_processo(infos: dict) -> str:
         return infos.get('lotacao', '')
-
-    def get_parts(parts: list) -> list:
-        return parts
 
     def get_movements(moves: list) -> list:
         return moves
